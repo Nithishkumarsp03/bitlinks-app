@@ -10,7 +10,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
-import com.microsoft.codepush.react.CodePush
+
+import java.io.File
 
 class MainApplication : Application(), ReactApplication {
 
@@ -23,9 +24,14 @@ class MainApplication : Application(), ReactApplication {
             }
         
         override fun getJSBundleFile(): String {
-            return CodePush.getJSBundleFile() 
+            val file = File(applicationContext.filesDir, "index.android.bundle")
+            return if (file.exists()) {
+                file.absolutePath
+            } else {
+                super.getJSBundleFile() ?: ""  // convert nullable to non-null
+            }
         }
-
+        
         override fun getJSMainModuleName(): String = "index"
 
         override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
