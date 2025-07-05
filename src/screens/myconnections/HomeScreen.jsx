@@ -45,7 +45,7 @@ export const Myconnections = () => {
       });
 
       const responseData = await res.json();
-      console.log(responseData);
+      // console.log(responseData);
       if (Array.isArray(responseData.data)) {
         setPersondata(responseData.data);
       } else {

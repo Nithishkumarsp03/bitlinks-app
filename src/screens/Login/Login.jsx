@@ -18,10 +18,10 @@ const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  console.log('BASE_URL:', BASE_URL); // Debugging
+  // console.log('BASE_URL:', BASE_URL); // Debugging
 
   const handleLogin = async () => {
-    console.log('BASE_URL:', BASE_URL); // Debugging
+    // console.log('BASE_URL:', BASE_URL); // Debugging
 
     try {
       const res = await fetch(`${BASE_URL}/api/auth/login`, {
@@ -47,7 +47,7 @@ const Login = () => {
       await EncryptedStorage.setItem('name', data.userData.name);
       await EncryptedStorage.setItem('email', data.userData.email);
       await EncryptedStorage.setItem('role', data.userData.role);
-      console.log('Login successful, navigating...');
+      // console.log('Login successful, navigating...');
       navigation.replace('Myconnections');
     } catch (error) {
       console.error('Error during API call:', error);
