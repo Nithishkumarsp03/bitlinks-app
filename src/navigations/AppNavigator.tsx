@@ -20,7 +20,7 @@ import Mom from '../screens/person-projects/Mom';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
-  const [initialRoute, setInitialRoute] = useState(null);
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
