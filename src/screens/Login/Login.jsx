@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,12 @@ import {
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BASE_URL, API_KEY} from '@env';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import { ToastAndroid, Platform } from 'react-native';
+import {ToastAndroid, Platform} from 'react-native';
 
 const Logo = require('../../assets/bitlinks-bg.png');
 const GoogleLogo = require('../../assets/google.png');
 
-const showToast = (msg) => {
+const showToast = msg => {
   if (Platform.OS === 'android') {
     ToastAndroid.show(msg, ToastAndroid.SHORT);
   } else {
@@ -23,7 +23,6 @@ const showToast = (msg) => {
     console.log(msg);
   }
 };
-
 
 const Login = () => {
   const navigation = useNavigation();
@@ -49,14 +48,16 @@ const Login = () => {
       });
 
       const data = await res.json();
+      setLoading(false);
       // console.log('Response Data:', data);
-      
+
       if (!res.ok) {
         showToast(data.message || 'Login failed. Please try again.');
         console.log('Login failed', data);
+        setLoading(false);
         return;
       }
-      
+
       await EncryptedStorage.setItem('authToken', data.token);
       await EncryptedStorage.setItem('name', data.userData.name);
       await EncryptedStorage.setItem('email', data.userData.email);
@@ -71,6 +72,8 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {}, [loading]);
 
   return (
     <View style={styles.container}>
@@ -104,11 +107,13 @@ const Login = () => {
 
       {/* Login Button */}
       <TouchableOpacity
-        style={styles.loginButton}
+        style={[styles.loginButton, loading && {opacity: 0.6}]} // reduce opacity when loading
         onPress={handleLogin}
-        //  onPress={() => navigation.navigate("Myconnections")}
+        disabled={loading} // disables the button when loading is true
       >
-        <Text style={styles.loginText}>{loading ? 'Logging in...': 'Login'}</Text>
+        <Text style={styles.loginText}>
+          {loading ? 'Logging in...' : 'Login'}
+        </Text>
       </TouchableOpacity>
 
       {/* Google Sign-In */}
