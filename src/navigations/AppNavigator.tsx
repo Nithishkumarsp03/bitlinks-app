@@ -29,13 +29,13 @@ const AppNavigator = () => {
         const role = await EncryptedStorage.getItem('role');
 
         if (token && role) {
-          setInitialRoute("Myconnections");
+          setInitialRoute('Myconnections');
         } else {
-          setInitialRoute("login");
+          setInitialRoute('login');
         }
       } catch (error) {
         console.error('Error fetching auth token:', error);
-        setInitialRoute("login"); // Fallback to login if an error occurs
+        setInitialRoute('login'); // Fallback to login if an error occurs
       }
     };
 

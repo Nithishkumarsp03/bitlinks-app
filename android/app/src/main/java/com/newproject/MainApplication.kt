@@ -23,12 +23,12 @@ class MainApplication : Application(), ReactApplication {
               // add(MyReactNativePackage())
             }
         
-        override fun getJSBundleFile(): String {
-            val file = File(applicationContext.filesDir, "index.android.bundle")
-            return if (file.exists()) {
-                file.absolutePath
+        override fun getJSBundleFile(): String? {
+            val otaBundle = File(applicationContext.filesDir, "index.android.bundle")
+            return if (otaBundle.exists()) {
+                otaBundle.absolutePath
             } else {
-                super.getJSBundleFile() ?: ""  // convert nullable to non-null
+                super.getJSBundleFile()
             }
         }
         

@@ -9,7 +9,7 @@ import {BASE_URL} from '@env';
 const Interlinks = () => {
   const route = useRoute();
   const {uuid} = route.params;
-  const [response, setResponse] = useState({})
+  const [response, setResponse] = useState({});
 //   console.log('Interlinks: ', uuid);
     const fetchConnection = async () => {
       const token = await EncryptedStorage.getItem('authToken');
@@ -30,7 +30,7 @@ const Interlinks = () => {
     };
     useEffect(() => {
         fetchConnection();
-    })
+    });
 
   return (
     <Profilelayout>

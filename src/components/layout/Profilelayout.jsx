@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Popover from 'react-native-popover-view';
 import Logo from '../../assets/bitlinks logo.svg';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const Profilelayout = ({children}) => {
   const navigation = useNavigation();

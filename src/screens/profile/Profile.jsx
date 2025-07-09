@@ -7,7 +7,7 @@ import {
   ScrollView,
   Linking,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import Profilelayout from '../../components/layout/Profilelayout';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';

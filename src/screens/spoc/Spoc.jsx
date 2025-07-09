@@ -15,9 +15,9 @@ const Spoc = () => {
       'Mark Smith',
       'Jane Doe',
     ]);
-  
+
     const allConnections = ['John Doe', 'Alice John', 'Mark Smith', 'Jane Doe'];
-  
+
     // Function to handle search
     const handleSearch = (text) => {
       setSearchQuery(text);
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   text: {fontSize: 18, fontWeight: 'bold', color: 'black'},
   pagetext: { color: '#2867b2', fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
-  
+
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',

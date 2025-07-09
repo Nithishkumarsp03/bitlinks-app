@@ -13,9 +13,11 @@ const Projectcard = ({project, navigation}) => {
   useEffect(() => {
     Animated.timing(animation, {
       toValue: expanded ? 1 : 0,
-      duration: 300, // Smooth transition (300ms)
+      duration: 300,
       useNativeDriver: false,
     }).start();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
   const maxHeight = animation.interpolate({
@@ -25,7 +27,12 @@ const Projectcard = ({project, navigation}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Minutes',{uuid: project.uuid, shaId: project.shaId  })} // Navigate when tapped
+      onPress={() =>
+        navigation.navigate('Minutes', {
+          uuid: project.uuid,
+          shaId: project.shaId,
+        })
+      } // Navigate when tapped
       activeOpacity={0.8}>
       <View style={styles.card}>
         {/* Compact View */}
@@ -67,7 +74,9 @@ const Projectcard = ({project, navigation}) => {
                   ]}
                 />
               </View>
-              <Text style={styles.progressText}>{project.progress || '0.00'}%</Text>
+              <Text style={styles.progressText}>
+                {project.progress || '0.00'}%
+              </Text>
             </View>
           </View>
 

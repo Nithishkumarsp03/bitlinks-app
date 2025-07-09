@@ -56,7 +56,7 @@ const TreeConnections = ({ data }) => {
       {filteredConnections.map(item => (
         <View key={item.uuid} style={styles.subCard}>
           <Image
-            source={{ uri: `https://yourdomain.com${item.profile}` }}
+            source={{ uri: `https://bitlinks.bitsathy.ac.in/bitlinks${item.profile}` }}
             style={styles.subImage}
           />
           <View style={{ flex: 1 }}>

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     // marginVertical: 10,
-    color: 'black'
+    color: 'black',
   },
   input: {
     fontSize: 16,
