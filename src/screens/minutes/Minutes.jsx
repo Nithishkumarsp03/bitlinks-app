@@ -1,27 +1,75 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   TouchableOpacity,
+  FlatList,
+  Platform,
+  ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Profilelayout from '../../components/layout/Profilelayout';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch, faFilter} from '@fortawesome/free-solid-svg-icons';
-import { useNavigation } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+import {BASE_URL} from '@env';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import MinuteCard from '../../components/minutes/Minutecard';
 
 const Minutes = () => {
-  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [minuteData, setMinuteData] = useState([]);
+  const [minutetitle, setMinutetitle] = useState('');
+  const route = useRoute();
+  const {uuid, shaId} = route.params;
+
+  const showToast = msg => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+      console.log(msg);
+    }
+  };
+
+  const fetchMinutes = async () => {
+    setLoading(true);
+    try {
+      const token = await EncryptedStorage.getItem('authToken');
+      const res = await fetch(`${BASE_URL}/api/minutes/fetchminutes/uuid`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({uuid: uuid, shaid: shaId}),
+      });
+
+      const data = await res.json();
+      setMinuteData(data.minutes);
+      setMinutetitle(data.title);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      showToast(error.message || 'Failed to fetch minutes');
+    }
+  };
+
+  useEffect(() => {
+    fetchMinutes();
+  }, [uuid, shaId]);
+
   return (
     <Profilelayout>
-      <Text style={styles.pagetext}>Minutes of Meeting</Text>
+      <Text style={styles.pagetitle}>{minutetitle} - Minutes of Meeting</Text>
+
       <View style={styles.searchContainer}>
         <FontAwesomeIcon
           icon={faSearch}
           size={18}
           color="#666"
-          style={styles.searchIcon}
+          style={styles.icon}
         />
         <TextInput
           style={styles.searchInput}
@@ -34,45 +82,65 @@ const Minutes = () => {
           <FontAwesomeIcon icon={faFilter} size={18} color="black" />
         </TouchableOpacity>
       </View>
-      <View style={styles.projectcontainer}></View>
+
+      {loading ? (
+        <View style={styles.centered}>
+          <ActivityIndicator size="large" color="#2867b2" />
+        </View>
+      ) : (
+        <FlatList
+          data={minuteData}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => <MinuteCard minute={item} />}
+          contentContainerStyle={{paddingBottom: 100}}
+          ListEmptyComponent={
+            <Text style={styles.noResults}>No minutes found</Text>
+          }
+        />
+      )}
     </Profilelayout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  text: {fontSize: 18, fontWeight: 'bold', color: 'black'},
-  pagetext: {
-    color: '#2867b2',
+  pagetitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#2867b2',
     marginBottom: 10,
   },
-
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+    alignItems: 'center',
   },
-  searchIcon: {
+  icon: {
     marginRight: 8,
   },
   searchInput: {
     flex: 1,
     height: 40,
-    fontSize: 16,
     color: 'black',
+    fontSize: 16,
   },
   filterButton: {
     padding: 8,
   },
-  projectcontainer: {
-    flex: 1,
+  noResults: {
+    textAlign: 'center',
+    color: '#666',
+    fontSize: 16,
+    marginTop: 20,
   },
 });
 

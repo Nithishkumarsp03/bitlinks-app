@@ -4,11 +4,11 @@ import MainLayout from '../../components/layout/Mainlayout';
 
 const Addconnection = () => {
     return (
-        <MainLayout>
+        // <MainLayout>
             <View>
                 <Text> Add Connection </Text>
             </View>
-        </MainLayout>
+        // </MainLayout>
     );
 }
 

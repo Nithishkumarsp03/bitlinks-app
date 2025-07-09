@@ -17,6 +17,7 @@ import {
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { ToastAndroid, Platform } from 'react-native';
 
 import Popover from 'react-native-popover-view';
 import Logo from '../../assets/bitlinks logo.svg';
@@ -34,6 +35,16 @@ const MainLayout = ({children}) => {
     role: '',
   });
 
+  const showToast = (msg) => {
+  if (Platform.OS === 'android') {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
+  } else {
+    // Use third-party toast for iOS or universal support
+    console.log(msg);
+  }
+};
+
+
   useEffect(() => {
     const loadUserData = async () => {
       try {
@@ -47,6 +58,7 @@ const MainLayout = ({children}) => {
           role: role || 'User',
         });
       } catch (error) {
+        showToast('Error fetching user data, Please Relogin');
         console.error('Error fetching user data:', error);
       }
     };
@@ -109,12 +121,14 @@ const MainLayout = ({children}) => {
                 style={styles.popoverItem}
                 onPress={async () => {
                   try {
+                    showToast('Logged out successfully!');
                     await EncryptedStorage.clear(); // Clear all stored user data
                     navigation.reset({
                       index: 0,
                       routes: [{name: 'login'}], // Reset navigation stack and go to Login
                     });
                   } catch (error) {
+                    showToast('Error clearing storage');
                     console.error('Error clearing storage:', error);
                   }
                 }}>

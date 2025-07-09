@@ -17,6 +17,7 @@ import Logo from '../../assets/bitlinks logo.svg';
 const Profilelayout = ({children}) => {
   const navigation = useNavigation();
   const route = useRoute();
+  const { uuid } = route.params;
   const hasUnreadNotifications = true;
 
   const [isPopoverVisible, setPopoverVisible] = useState(false);
@@ -96,7 +97,7 @@ const Profilelayout = ({children}) => {
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Profile')}>
+          onPress={() => navigation.navigate('Profile', {uuid: uuid})}>
           <FontAwesomeIcon
             icon={faUser}
             size={20}
@@ -113,7 +114,7 @@ const Profilelayout = ({children}) => {
 
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Interlinks')}>
+          onPress={() => navigation.navigate('Interlinks', {uuid: uuid})}>
           <FontAwesomeIcon
             icon={faLink}
             size={20}
@@ -130,7 +131,7 @@ const Profilelayout = ({children}) => {
 
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Infograph')}>
+          onPress={() => navigation.navigate('Infograph', {uuid: uuid})}>
           <FontAwesomeIcon
             icon={faChartBar}
             size={20}
@@ -147,7 +148,7 @@ const Profilelayout = ({children}) => {
 
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => navigation.navigate('Mom')}>
+          onPress={() => navigation.navigate('Mom', {uuid: uuid})}>
           <FontAwesomeIcon
             icon={faClipboardList}
             size={20}

@@ -119,6 +119,7 @@ export const Myconnections = () => {
             <View style={styles.cardbox} key={index}>
               <Card
                 name={key.fullname}
+                uuid={key.uuid}
                 navigation={navigation}
                 role={key.role}
                 email={key.email}

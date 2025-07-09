@@ -15,9 +15,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 // import Carousel from '../../assets/card/view_carousel.svg';
 
-const Card = ({name, navigation, email, call, linkedin, role}) => {
+const Card = ({name, navigation, email, call, linkedin, role, uuid}) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+    <TouchableOpacity onPress={() => navigation.navigate('Profile', {uuid: uuid})}>
       <View style={styles.cardcontainer}>
         <FontAwesomeIcon
           icon={faPlus}

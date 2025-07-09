@@ -10,9 +10,20 @@ import {
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BASE_URL, API_KEY} from '@env';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { ToastAndroid, Platform } from 'react-native';
 
 const Logo = require('../../assets/bitlinks-bg.png');
 const GoogleLogo = require('../../assets/google.png');
+
+const showToast = (msg) => {
+  if (Platform.OS === 'android') {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
+  } else {
+    // Use third-party toast for iOS or universal support
+    console.log(msg);
+  }
+};
+
 
 const Login = () => {
   const navigation = useNavigation();
@@ -39,6 +50,7 @@ const Login = () => {
       console.log('Response Data:', data); // Debugging API response
 
       if (!res.ok) {
+        showToast(data.message || 'Login failed. Please try again.');
         console.log('Login failed', data);
         return;
       }
@@ -48,9 +60,11 @@ const Login = () => {
       await EncryptedStorage.setItem('email', data.userData.email);
       await EncryptedStorage.setItem('role', data.userData.role);
       // console.log('Login successful, navigating...');
+      showToast('Login successful!');
       navigation.replace('Myconnections');
     } catch (error) {
       console.error('Error during API call:', error);
+      showToast('Something went wrong. Try again.');
     }
   };
 

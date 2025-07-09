@@ -115,6 +115,7 @@ const Networks = () => {
       <View style={styles.cardbox}>
         <Card
           name={item.fullname}
+          uuid={item.uuid}
           navigation={navigation}
           role={item.role}
           email={item.email}

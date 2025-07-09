@@ -56,6 +56,7 @@ const AppNavigator = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
           <Stack.Screen name="login" component={Login} />
+          {/* <Stack.Screen name="Maintabs" component={MainTabs} /> */}
           <Stack.Screen name="Myconnections" component={Myconnections} />
           <Stack.Screen name="Networks" component={Networks} />
           <Stack.Screen name="Project" component={Project} />

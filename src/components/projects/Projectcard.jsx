@@ -10,7 +10,6 @@ import {
 const Projectcard = ({project, navigation}) => {
   const [expanded, setExpanded] = useState(false);
   const animation = useRef(new Animated.Value(0)).current; // Animation control
-
   useEffect(() => {
     Animated.timing(animation, {
       toValue: expanded ? 1 : 0,
@@ -26,7 +25,7 @@ const Projectcard = ({project, navigation}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Minutes')} // Navigate when tapped
+      onPress={() => navigation.navigate('Minutes',{uuid: project.uuid, shaId: project.shaId  })} // Navigate when tapped
       activeOpacity={0.8}>
       <View style={styles.card}>
         {/* Compact View */}
@@ -38,7 +37,7 @@ const Projectcard = ({project, navigation}) => {
               <Text
                 style={[
                   styles.status,
-                  project.status === 'Pending'
+                  project.status === 'Pending' && project.progress !== '100.00'
                     ? styles.pending
                     : styles.completed,
                 ]}>
@@ -58,11 +57,17 @@ const Projectcard = ({project, navigation}) => {
                 <View
                   style={[
                     styles.progressBarFill,
-                    {width: `${project.progress}%`}, // Dynamically set width
+                    {
+                      width: `${
+                        !isNaN(parseFloat(project.progress))
+                          ? project.progress
+                          : 0
+                      }%`,
+                    },
                   ]}
                 />
               </View>
-              <Text style={styles.progressText}>{project.progress}%</Text>
+              <Text style={styles.progressText}>{project.progress || '0.00'}%</Text>
             </View>
           </View>
 
@@ -171,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Projectcard;
+export default React.memo(Projectcard);
