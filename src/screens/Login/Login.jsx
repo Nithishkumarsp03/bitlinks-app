@@ -29,10 +29,12 @@ const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   // console.log('BASE_URL:', BASE_URL); // Debugging
 
   const handleLogin = async () => {
     // console.log('BASE_URL:', BASE_URL); // Debugging
+    setLoading(true);
 
     try {
       const res = await fetch(`${BASE_URL}/api/auth/login`, {
@@ -47,24 +49,26 @@ const Login = () => {
       });
 
       const data = await res.json();
-      console.log('Response Data:', data); // Debugging API response
-
+      // console.log('Response Data:', data);
+      
       if (!res.ok) {
         showToast(data.message || 'Login failed. Please try again.');
         console.log('Login failed', data);
         return;
       }
-
+      
       await EncryptedStorage.setItem('authToken', data.token);
       await EncryptedStorage.setItem('name', data.userData.name);
       await EncryptedStorage.setItem('email', data.userData.email);
       await EncryptedStorage.setItem('role', data.userData.role);
       // console.log('Login successful, navigating...');
+      setLoading(false);
       showToast('Login successful!');
       navigation.replace('Myconnections');
     } catch (error) {
       console.error('Error during API call:', error);
       showToast('Something went wrong. Try again.');
+      setLoading(false);
     }
   };
 
@@ -104,7 +108,7 @@ const Login = () => {
         onPress={handleLogin}
         //  onPress={() => navigation.navigate("Myconnections")}
       >
-        <Text style={styles.loginText}>Login</Text>
+        <Text style={styles.loginText}>{loading ? 'Logging in...': 'Login'}</Text>
       </TouchableOpacity>
 
       {/* Google Sign-In */}
