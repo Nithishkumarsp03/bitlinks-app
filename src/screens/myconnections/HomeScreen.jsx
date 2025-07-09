@@ -83,7 +83,7 @@ export const Myconnections = () => {
 
   return (
     <MainLayout>
-      <Text style={styles.pagetext}>Connections</Text>
+      <Text style={styles.pagetext}>My Connections</Text>
 
       {/* Search Bar with Filter Icon */}
       <View style={styles.searchContainer}>
